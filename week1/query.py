@@ -106,55 +106,6 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                         "filter": filters  #
                     }
                 },
-                "boost_mode": "multiply",  # how _score and functions are combined
-                "score_mode": "sum",  # how functions are combined
-                "functions": [
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankShortTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankShortTerm": {
-                                "origin": "1.0",
-                                "scale": "100"
-                            }
-                        }
-                    },
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankMediumTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankMediumTerm": {
-                                "origin": "1.0",
-                                "scale": "1000"
-                            }
-                        }
-                    },
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankLongTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankLongTerm": {
-                                "origin": "1.0",
-                                "scale": "1000"
-                            }
-                        }
-                    },
-                    {
-                        "script_score": {
-                            "script": "0.0001"
-                        }
-                    }
-                ]
-
             }
         }
     }
