@@ -55,26 +55,6 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                         ],
                         "should": [  #
                             {
-                                "match": {
-                                    "name": {
-                                        "query": user_query,
-                                        # "fuzziness": "1",
-                                        "prefix_length": 2,
-                                        # short words are often acronyms or usually not misspelled, so don't edit
-                                        "boost": 0.01
-                                    }
-                                }
-                            },
-                            {
-                                "match_phrase": {  # near exact phrase match
-                                    "name.hyphens": {
-                                        "query": user_query,
-                                        "slop": 1,
-                                        "boost": 50
-                                    }
-                                }
-                            },
-                            {
                                 "multi_match": {
                                     "query": user_query,
                                     "type": "phrase",
@@ -85,22 +65,6 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                                                "categoryPath"]
                                 }
                             },
-                            {
-                                "terms": {
-                                    # Lots of SKUs in the query logs, boost by it, split on whitespace so we get a list
-                                    "sku": user_query.split(),
-                                    "boost": 50.0
-                                }
-                            },
-                            {  # lots of products have hyphens in them or other weird casing things like iPad
-                                "match": {
-                                    "name.hyphens": {
-                                        "query": user_query,
-                                        "operator": "OR",
-                                        "minimum_should_match": "2<75%"
-                                    }
-                                }
-                            }
                         ],
                         "minimum_should_match": 1,
                         "filter": filters  #
