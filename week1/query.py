@@ -58,7 +58,7 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                                 "match": {
                                     "name": {
                                         "query": user_query,
-                                        "fuzziness": "1",
+                                        # "fuzziness": "1",
                                         "prefix_length": 2,
                                         # short words are often acronyms or usually not misspelled, so don't edit
                                         "boost": 0.01
