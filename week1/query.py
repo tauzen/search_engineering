@@ -189,7 +189,7 @@ def search(client, user_query, index="bbuy_products"):
 @click.option('--max_queries', '-m', default=500, help="The maximum number of queries to run.  Set to -1 to run all.")
 def main(query_file: str, index_name: str, host: str, max_queries: int):
     logger.info(f"Loading query file from {query_file}")
-    query_df = pd.read_csv(query_file, parse_dates=['click_time', 'query_time'])
+    query_df = pd.read_csv(query_file, nrows=max_queries, parse_dates=['click_time', 'query_time'])
     queries = query_df["query"][0:max_queries]
     client = get_opensearch(host)
     start = perf_counter()
